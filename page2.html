@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For Anshika 💖</title>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+  background: radial-gradient(circle at top, #7a001f, #3b000f);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Pacifico', cursive;
+}
+
+.container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* PHOTO */
+.photo {
+  width: 260px;
+  height: 260px;
+  border-radius: 20px;
+  object-fit: cover;
+  box-shadow: 0 0 40px rgba(255,105,180,0.9);
+  opacity: 0;
+  transform: scale(0) rotate(-20deg);
+  animation: photoEntry 2s ease forwards, glowPulse 3s infinite ease-in-out;
+  animation-delay: 1s, 3s;
+}
+
+@keyframes photoEntry {
+  0% { opacity:0; transform: scale(0) rotate(-20deg); }
+  60% { transform: scale(1.2) rotate(10deg); }
+  100% { opacity:1; transform: scale(1) rotate(0); }
+}
+
+@keyframes glowPulse {
+  0%,100% { box-shadow: 0 0 25px rgba(255,105,180,0.6); }
+  50% { box-shadow: 0 0 60px rgba(255,105,180,1); }
+}
+
+/* LEFT TEXT */
+.left-text {
+  position: absolute;
+  left: -260px;
+  color: #ffb3d9;
+  font-size: 2em;
+  max-width: 220px;
+  text-shadow: 0 0 10px #ff4d88, 0 0 25px #ff1a66;
+  opacity: 0;
+  animation: sideAppear 2s ease forwards;
+  animation-delay: 2.5s;
+}
+
+/* RIGHT TIMER */
+.right-timer {
+  position: absolute;
+  right: -260px;
+}
+
+.countdown {
+  font-size: 1.5em;
+  color: #ffd1e6;
+  text-shadow: 0 0 10px #ff4d88, 0 0 20px #ff1a66;
+}
+
+@keyframes sideAppear {
+  from { opacity:0; transform: translateX(30px); }
+  to { opacity:1; transform: translateX(0); }
+}
+
+/* BOTTOM MESSAGE */
+.bottom-message {
+  position: absolute;
+  bottom: 60px;
+  width: 80%;
+  text-align: center;
+  font-size: 1.6em;
+  color: #ff9ac4;
+  text-shadow: 0 0 10px #ff4d88, 0 0 25px #ff1a66, 0 0 40px #ff66a3;
+  opacity: 0;
+  animation: textAppear 2s ease forwards;
+  animation-delay: 3.5s;
+}
+
+@keyframes textAppear {
+  from { opacity:0; transform: translateY(30px); }
+  to { opacity:1; transform: translateY(0); }
+}
+
+/* HEARTS */
+.heart {
+  position: absolute;
+  font-size: 20px;
+  animation: floatUp linear infinite;
+}
+
+@keyframes floatUp {
+  0% { transform: translateY(100vh); opacity:0; }
+  50% { opacity:1; }
+  100% { transform: translateY(-10vh); opacity:0; }
+}
+
+/* SPARKLES */
+.sparkle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: white;
+  border-radius: 50%;
+  animation: sparkle 2s infinite;
+}
+
+@keyframes sparkle {
+  0%,100% { opacity:0; transform: scale(0.5); }
+  50% { opacity:1; transform: scale(1.5); }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- 🎵 MUSIC -->
+<audio id="bgMusic" autoplay loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<div class="container">
+  <div class="left-text">Just few hours to go 💖</div>
+
+  <img src="anshika.jpg" class="photo" id="photo">
+
+  <div class="right-timer">
+    <div class="countdown" id="countdown"></div>
+  </div>
+</div>
+
+<div class="bottom-message">
+  Couldn’t wait till your birthday to remind you how special you are. 💖<br>
+  Happy Birthday in advance, Anshika ✨
+</div>
+
+<script>
+// 🎵 FORCE PLAY (for browsers that block autoplay)
+document.addEventListener("click", () => {
+  document.getElementById("bgMusic").play();
+});
+
+// HEARTS
+function heart(){
+  let h=document.createElement('div');
+  h.className='heart';
+  h.innerHTML=['💖','💘','💝','💗'][Math.floor(Math.random()*4)];
+  h.style.left=Math.random()*100+'vw';
+  h.style.fontSize=(20+Math.random()*25)+'px';
+  h.style.animationDuration=(4+Math.random()*4)+'s';
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),8000);
+}
+
+// SPARKLES
+function sparkle(){
+  let s=document.createElement('div');
+  s.className='sparkle';
+  s.style.left=Math.random()*100+'vw';
+  s.style.top=Math.random()*100+'vh';
+  document.body.appendChild(s);
+  setTimeout(()=>s.remove(),2000);
+}
+
+setInterval(heart,250);
+setInterval(sparkle,150);
+
+// COUNTDOWN
+const targetDate = new Date(2026, 3, 21, 0, 0, 0).getTime();
+
+function updateCountdown() {
+  const now = new Date().getTime();
+  const diff = targetDate - now;
+
+  if (diff <= 0) {
+    document.getElementById("countdown").innerHTML = "It's your day 💖";
+    return;
+  }
+
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  const minutes = Math.floor((diff / (1000 * 60)) % 60);
+  const seconds = Math.floor((diff / 1000) % 60);
+
+  document.getElementById("countdown").innerHTML =
+    `${days}d ${hours}h ${minutes}m ${seconds}s left 💫`;
+}
+
+setInterval(updateCountdown, 1000);
+updateCountdown();
+
+// PARALLAX
+const photo = document.getElementById("photo");
+
+document.addEventListener("mousemove", (e) => {
+  let x = (window.innerWidth / 2 - e.pageX) / 30;
+  let y = (window.innerHeight / 2 - e.pageY) / 30;
+  photo.style.transform = `translate(${x}px, ${y}px) scale(1)`;
+});
+</script>
+
+</body>
+</html>
